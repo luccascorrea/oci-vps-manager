@@ -1,0 +1,7 @@
+key.pem
+config.json
+env
+build/
+dist/
+*.pyc
+.vscode/
