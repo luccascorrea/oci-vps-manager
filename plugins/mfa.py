@@ -51,8 +51,8 @@ class MFAPlugin(BasePlugin):
         otp = generate_otp(secret=mfa_settings["secret"])
         copy_to_clipboard(otp)
         rumps.notification(
-            title="VPS",
-            subtitle="Current spend",
+            title="MFA",
+            subtitle="Copied!",
             message=f"{otp}",
         )
 
