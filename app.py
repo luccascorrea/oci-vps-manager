@@ -19,9 +19,11 @@ class OCIStatusBarApp(rumps.App):
             rumps.MenuItem("View current spend")
         ]
 
+        self.timers = []
         for plugin in load_plugins():
             for menu_item in plugin.get_menu_items():
                 self.menu.add(menu_item)
+                self.timers.extend(plugin.get_timers())
 
     @rumps.timer(10)
     def update_status(self, _):
@@ -54,3 +56,8 @@ class OCIStatusBarApp(rumps.App):
             subtitle="Current spend",
             message=f"${spend:.2f}",
         )
+
+    def run(self, *args, **kwargs):
+        for timer in self.timers:
+            timer.start()
+        super().run(*args, **kwargs)
