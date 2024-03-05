@@ -1,4 +1,5 @@
 import rumps
+from plugins import load_plugins
 
 
 
@@ -18,13 +19,9 @@ class OCIStatusBarApp(rumps.App):
             rumps.MenuItem("View current spend")
         ]
 
-        for plugin in self.load_plugins():
+        for plugin in load_plugins():
             for menu_item in plugin.get_menu_items():
                 self.menu.add(menu_item)
-
-    def load_plugins(self):
-        import plugins.mfa
-        return [plugins.mfa.MFAPlugin()]
 
     @rumps.timer(10)
     def update_status(self, _):
