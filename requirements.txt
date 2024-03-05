@@ -5,3 +5,4 @@ oci==2.90.3
 py2app==0.28.5
 pyotp==2.9.0
 rumps==0.4.0
+requests==2.31.0
