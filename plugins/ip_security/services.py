@@ -1,12 +1,17 @@
 from typing import TypedDict
 import requests
+from requests.adapters import HTTPAdapter, Retry
 from conf import settings
 from plugins.ip_security.backends import get_backend
 from plugins.ip_security.backends.base import CurrentCidr
 
 
 def get_external_ip() -> str:
-    response = requests.get("https://api.ipify.org")
+    session = requests.Session()
+    retry = Retry(total=10, backoff_factor=0.5)
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("https://", adapter)
+    response = session.get("https://api.ipify.org")
     return response.text
 
 
@@ -31,9 +36,11 @@ class UpdateRulesService:
             rules_info = backend_settings["rules_info"]
             backend.update_rules(rules_info, new_cidr)
 
+
 class CurrentCIDRsInfo(TypedDict):
     provider: str
     cidrs: list[CurrentCidr]
+
 
 class FetchCIDRsService:
     def run(self) -> list[CurrentCIDRsInfo]:
