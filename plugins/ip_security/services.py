@@ -54,3 +54,15 @@ class FetchCIDRsService:
                 }
             )
         return cidrs
+
+
+class CheckNeedUpdateService:
+    def run(self, cidrs: list[CurrentCIDRsInfo], current_external_ip: str) -> bool:
+        different = False
+        current_external_ip = current_external_ip + "/32"
+        for cidr_info in cidrs:
+            for cidr in cidr_info["cidrs"]:
+                if cidr["current_cidr"] != current_external_ip:
+                    different = True
+                    break
+        return different
