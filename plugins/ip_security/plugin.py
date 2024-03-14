@@ -18,6 +18,7 @@ class IPSecurityPlugin(BasePlugin):
         )
         self.current_external_ip = None
         self.cidrs: "List[CurrentCIDRsInfo]" = []
+        self.auto_update = True
 
     def get_menu_items(self) -> "list[MenuItem]":
         self.root_item.add(self.update_cidrs_menu_item)
@@ -46,7 +47,9 @@ class IPSecurityPlugin(BasePlugin):
             need_update = service.run(self.cidrs, self.current_external_ip)
             if need_update:
                 text += " *"
-                self.update_rules_cidrs(None)
+
+                if self.auto_update:
+                    self.update_rules_cidrs(None)
 
         self.update_cidrs_menu_item.title = text
 
