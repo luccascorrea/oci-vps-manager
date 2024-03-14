@@ -6,9 +6,10 @@ class CurrentSpendService:
     """Service to calculate current spend"""
 
     def run(self) -> "float":
-        compartment_id = settings["compartment_id"]
 
-        core_client = oci.budget.BudgetClient(settings)
+        config = settings["vps"]["config"]
+        compartment_id = config["compartment_id"]
+        core_client = oci.budget.BudgetClient(config)
         response = core_client.list_budgets(compartment_id=compartment_id)
         return response.data[0].actual_spend
 

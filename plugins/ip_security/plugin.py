@@ -11,7 +11,7 @@ from .services import (
 
 
 class IPSecurityPlugin(BasePlugin):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self.root_item = MenuItem("IP Security")
         self.update_cidrs_menu_item = MenuItem(
             "Update CIDRs", key="update_cidrs", callback=self.update_rules_cidrs

@@ -20,7 +20,7 @@ def generate_otp(secret: str, interval: int):
 class MFAPlugin(BasePlugin):
     mfa_settings_map: Dict[str, MFASettings]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self.mfa_settings_map = {}
         mfa_settings_list: List[MFASettings] = settings.get("mfa", [])
         for mfa_settings in mfa_settings_list:
