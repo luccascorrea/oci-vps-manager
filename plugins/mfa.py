@@ -11,15 +11,16 @@ OTP_INTERVAL = 30
 class MFASettings(TypedDict):
     secret: str
     label: str
+    interval: int
 
-def generate_otp(secret):
-    totp = pyotp.TOTP(secret, interval=OTP_INTERVAL)
+def generate_otp(secret: str, interval: int):
+    totp = pyotp.TOTP(secret, interval=interval)
     return totp.now()
 
 class MFAPlugin(BasePlugin):
     mfa_settings_map: Dict[str, MFASettings]
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self.mfa_settings_map = {}
         mfa_settings_list: List[MFASettings] = settings.get("mfa", [])
         for mfa_settings in mfa_settings_list:
@@ -48,11 +49,12 @@ class MFAPlugin(BasePlugin):
     def on_click(self, item):
         identifier = item.key
         mfa_settings = self.mfa_settings_map[identifier]
-        otp = generate_otp(secret=mfa_settings["secret"])
+        otp = generate_otp(secret=mfa_settings["secret"], interval=mfa_settings["interval"])
         copy_to_clipboard(otp)
         rumps.notification(
             title="MFA",
             subtitle="Copied!",
             message=f"{otp}",
         )
+
 
