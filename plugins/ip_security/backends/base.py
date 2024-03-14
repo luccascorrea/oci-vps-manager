@@ -26,5 +26,9 @@ def get_backend(provider: str, auth: dict) -> IPRulesBackend:
         from plugins.ip_security.backends.aws import AWSBackend
 
         return AWSBackend(auth)
+    elif provider == "oci":
+        from plugins.ip_security.backends.oracle_cloud import OracleCloudBackend
+
+        return OracleCloudBackend(auth)
     else:
         raise UnknownProviderError(f"Provider type {provider} not available")
