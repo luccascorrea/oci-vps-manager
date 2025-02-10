@@ -56,5 +56,8 @@ class VPSPlugin(BasePlugin):
         )
 
     def update_status(self, _):
-        status = self.instance_status_service.run()
+        try:
+            status = self.instance_status_service.run()
+        except Exception:
+            status = "Unknown"
         self.app.title = f"VPS: {status}"
