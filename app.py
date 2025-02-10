@@ -1,5 +1,6 @@
 import rumps
 from plugins import load_plugins
+from Foundation import NSBundle
 
 
 
@@ -15,6 +16,7 @@ class OCIStatusBarApp(rumps.App):
             for menu_item in plugin.get_menu_items():
                 self.menu.add(menu_item)
                 self.timers.extend(plugin.get_timers())
+        NSBundle.mainBundle().infoDictionary()['CFBundleIdentifier'] = kwargs["name"]
 
     def run(self, *args, **kwargs):
         for timer in self.timers:
