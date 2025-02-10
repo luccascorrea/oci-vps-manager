@@ -64,6 +64,7 @@ class IPSecurityPlugin(BasePlugin):
             title="IP Security",
             subtitle="Updated!",
             message="Rules and CIDRs updated",
+            sound=False,
         )
 
     def fetch_cidrs(self, _):
