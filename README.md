@@ -67,3 +67,22 @@ python setup.py py2app
     ```bash
     
 
+## AWS Policy for IP updates
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeSecurityGroupRules",
+                "ec2:DescribeSecurityGroups",
+                "ec2:ModifySecurityGroupRules"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
